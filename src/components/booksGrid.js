@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
-import Book from './book'
+import Book from './book';
 import { withRouter } from "react-router";
 
 class BooksGrid extends Component {
