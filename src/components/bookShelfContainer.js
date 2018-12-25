@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
-//import { Link } from 'react-router-dom';
 import BookShelf from './bookShelf';
 
 class BookShelfContainer extends Component {

@@ -15,12 +15,12 @@ class SearchBooksComponent extends React.Component {
         query: ''
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         if (this.props.searchBooks[0] !== prevProps.searchBooks[0]) {
             const result = this.checkTermTable(this.state.query);
             this.props.onSearchBooks(result);
         }
-      }
+    }
 
     checkTermTable = (query) => {
         const searchWords = ['Android', 'Art', 'Artificial Intelligence', 'Astronomy',

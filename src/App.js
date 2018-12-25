@@ -5,6 +5,7 @@ import BookShelfContainer from './components/bookShelfContainer';
 import SearchBooksComponent from './components/searchBooksComponent';
 import { Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { withRouter } from "react-router";
 import Popup from './components/confirmBookAdded';
 import LoadingDialog from './components/loadingDialog';
 
@@ -18,6 +19,10 @@ class BooksApp extends React.Component {
     showLoader: false
   }
 
+  componentDidMount() {
+    this.getAllBooks();
+  }
+
   searchBooks = (query) => {
     this.setLoader(true);
     if (query === '' || !query) {
@@ -27,18 +32,12 @@ class BooksApp extends React.Component {
       BooksAPI.search(query)
         .then((bookResult) => {
           const bookSearch = this.findShelvedBooks(bookResult);
-            this.setState(() => ({
-              bookSearch
-            }))
+          this.setState(() => ({
+            bookSearch
+          }));
           this.setLoader(false);
         });
     }
-  }
-
-  setLoader = (toggle) => {
-    this.setState(() => ({
-      showLoader: toggle
-    }));
   }
 
   findShelvedBooks = (bookResult) => {
@@ -51,41 +50,54 @@ class BooksApp extends React.Component {
     return bookResult;
   }
 
-  componentDidMount() {
-    this.getAllBooks();
-  };
-
   updateBook = (book, shelf) => {
     this.setLoader(true);
     BooksAPI.update(book, shelf)
       .then(() => {
-        this.getAllBooks();
-        this.setLoader(false);
+        this.getAllBooks(true);
         this.togglePopup(book);
       });
   }
 
-  getAllBooks = () => {
+  getAllBooks = (keepLoader) => {
+    this.setLoader(true);
     BooksAPI.getAll()
       .then((books) => {
         this.setState(() => ({
           books
         }));
+        if (!keepLoader) {
+          this.setLoader(false);
+        }
       });
   }
 
   clearBookListState = () => {
-    const bookSearch = [];
     this.setState(() => ({
-      bookSearch
-    }))
+      bookSearch: []
+    }));
   }
 
   togglePopup = (updatedBook) => {
+    const { showPopup } = this.state;
     this.setState({
       updatedBook,
-      showPopup: !this.state.showPopup
+      showPopup: !showPopup,
     });
+
+    setTimeout(() => {
+      this.setState({
+        showPopup: false,
+      });
+    }, 3000);
+
+    this.setLoader(false);
+  }
+
+  setLoader = (toggle) => {
+    this.setState(() => ({
+      showLoader: toggle
+    }));
   }
 
   closePopup = () => {
@@ -93,7 +105,6 @@ class BooksApp extends React.Component {
       showPopup: false
     });
   }
-
 
   render() {
     return (
@@ -103,8 +114,7 @@ class BooksApp extends React.Component {
             searchBooks={this.state.bookSearch}
             onSearchBooks={this.searchBooks}
             updateBook={this.updateBook}
-            clearBookListState={this.clearBookListState}
-          >
+            clearBookListState={this.clearBookListState}>
           </SearchBooksComponent>
         )} />
         <Route exact path='/' render={({ history }) => (
@@ -116,7 +126,7 @@ class BooksApp extends React.Component {
               books={this.state.books}
               updateBook={(book, shelf) => {
                 this.updateBook(book, shelf);
-                history.push('/')
+                history.push('/');
               }}></BookShelfContainer>
             <Link
               className="open-search"
@@ -126,13 +136,14 @@ class BooksApp extends React.Component {
             </Link>
           </div>
         )} />
-        {this.state.showPopup ?
-          <Popup
-            loader={this.state.loader}
-            textObject={this.state.updatedBook}
-            showPopup={this.state.showPopup}
-            closePopup={this.closePopup}
-          /> : null
+        {
+          this.state.showPopup ?
+            <Popup
+              loader={this.state.loader}
+              textObject={this.state.updatedBook}
+              showPopup={this.state.showPopup}
+              closePopup={this.closePopup}
+            /> : null
         }
         {
           this.state.showLoader ?
@@ -143,4 +154,4 @@ class BooksApp extends React.Component {
   }
 }
 
-export default BooksApp
+export default withRouter(BooksApp);

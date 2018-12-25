@@ -22,7 +22,7 @@ class ConfirmBookAdded extends React.Component {
                     </div>
                 }
             </div>
-        );
+        )
     }
 }
 

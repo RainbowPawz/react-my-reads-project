@@ -8,32 +8,28 @@ class BooksGrid extends Component {
         updateBook: propTypes.func.isRequired
     }
 
+    getBook = (book, updateBook) => {
+        return (
+            <li key={book.id}>
+                <Book
+                    book={book}
+                    updateBook={updateBook}>
+                </Book>
+            </li>
+        )
+    }
+
     render() {
-        const { shelf, books, updateBook } = this.props;
+        const { shelf, books, updateBook, location } = this.props;
 
         return (
             <ol className="books-grid">
                 {
-                   shelf ? books.map((book) => (
-                        shelf && shelf.type === book.shelf
-                            ?
-                            <li key={book.id}>
-                                <Book
-                                    book={book}
-                                    updateBook={updateBook}>
-                                </Book>
-                            </li>
-                            : null
-
-                    )) :
                     books.map((book) => (
-                            <li key={book.id}>
-                                <Book
-                                    book={book}
-                                    updateBook={updateBook}>
-                                </Book>
-                            </li>
-
+                        location.pathname === '/'
+                            ? shelf.type === book.shelf
+                                ? this.getBook(book, updateBook) : null
+                            : this.getBook(book, updateBook)
                     ))
                 }
             </ol>

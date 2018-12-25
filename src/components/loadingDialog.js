@@ -1,18 +1,16 @@
 import React from 'react'
 
-class LoadingDialog extends React.Component {
+const LoadingDialog = () => {
 
-    render() {
-        return (
-            <div className='popup'>
-                {
-                    <div className='loader_inner'>
-                        <div className='loader'></div>
-                    </div>
-                }
-            </div>
-        );
-    }
+    return (
+        <div className='popup'>
+            {
+                <div className='loader_inner'>
+                    <div className='loader'></div>
+                </div>
+            }
+        </div>
+    )
 }
 
 export default LoadingDialog;
