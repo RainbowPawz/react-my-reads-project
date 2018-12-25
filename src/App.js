@@ -1,15 +1,15 @@
-import React from 'react'
-import * as BooksAPI from './BooksAPI'
-import './App.css'
+import React, { Component } from 'react';
+import * as BooksAPI from './BooksAPI';
+import './App.css';
 import BookShelfContainer from './components/bookShelfContainer';
 import SearchBooksComponent from './components/searchBooksComponent';
 import { Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { withRouter } from "react-router";
-import ConfirmModal from './components/confirmModalAdded';
+import ConfirmModal from './components/confirmModal';
 import LoadingDialog from './components/loadingDialog';
 
-class BooksApp extends React.Component {
+class BooksApp extends Component {
   state = {
     books: [],
     bookSearch: [],

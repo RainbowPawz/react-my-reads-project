@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class ConfirmModalAdded extends React.Component {
+class ConfirmModal extends Component {
     static propTypes = {
         closeConfirmModal: PropTypes.func.isRequired,
         textObject: PropTypes.object.isRequired
@@ -26,4 +26,4 @@ class ConfirmModalAdded extends React.Component {
     }
 }
 
-export default ConfirmModalAdded;
+export default ConfirmModal;

@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BooksGrid from './booksGrid';
 import { Link } from 'react-router-dom';
 
-class SearchBooksComponent extends React.Component {
+class SearchBooksComponent extends Component {
     static propTypes = {
         searchBooks: PropTypes.array.isRequired,
         onSearchBooks: PropTypes.func.isRequired,
