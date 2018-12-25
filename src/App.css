@@ -243,10 +243,14 @@ button:active {
   bottom: 50%;
   margin: auto;
   background: white;
-  padding: 0 25px;
+  padding: 0 10px;
   border-radius: 4px;
 }
 
 .popup_inner h1 {
   text-align: center;
+}
+
+.popup_inner h3 {
+  margin: 10px 20px;
 }
