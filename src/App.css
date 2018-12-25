@@ -223,6 +223,8 @@ button:active {
   font-size: 0.8em;
 }
 
+/* modal */
+
 .modal {
   position: fixed;
   width: 100%;
@@ -245,6 +247,16 @@ button:active {
   border-radius: 4px;
 }
 
+.modal-body h1 {
+  text-align: center;
+}
+
+.modal-body h3 {
+  margin: 10px 20px;
+}
+
+/* loader */
+
 .loader-body {
   position: absolute;
   left: 45%;
@@ -253,14 +265,6 @@ button:active {
   margin: auto;
   padding: 0 10px;
   border-radius: 4px;
-}
-
-.modal-body h1 {
-  text-align: center;
-}
-
-.modal-body h3 {
-  margin: 10px 20px;
 }
 
 .loader {
