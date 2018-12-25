@@ -15,6 +15,13 @@ class SearchBooksComponent extends React.Component {
         query: ''
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.searchBooks[0] !== prevProps.searchBooks[0]) {
+            const result = this.checkTermTable(this.state.query);
+            this.props.onSearchBooks(result);
+        }
+      }
+
     checkTermTable = (query) => {
         const searchWords = ['Android', 'Art', 'Artificial Intelligence', 'Astronomy',
             'Austen', 'Baseball', 'Basketball', 'Bhagat', 'Biography', 'Brief', 'Business',
@@ -42,11 +49,7 @@ class SearchBooksComponent extends React.Component {
 
         const result = this.checkTermTable(query);
 
-        if (result && result.length) {
-            this.props.onSearchBooks(result);
-        } else if (result === '' || !result) {
-            this.props.clearBookListState();
-        }
+        this.props.onSearchBooks(result);
     }
 
     handleSubmit = (event) => {
