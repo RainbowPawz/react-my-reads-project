@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import Book from './book'
+import { withRouter } from "react-router";
 
 class BooksGrid extends Component {
     static propTypes = {
@@ -37,4 +38,4 @@ class BooksGrid extends Component {
     }
 }
 
-export default BooksGrid;
+export default withRouter(BooksGrid);

@@ -223,35 +223,31 @@ button:active {
   font-size: 0.8em;
 }
 
-.popup {
+.modal {
   position: fixed;
   width: 100%;
   height: 100%;
   top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   margin: auto;
-  background-color: rgba(0,0,0, 0.5);
+  background-color: rgba(0, 68, 42, 0.5);
   z-index: 100;
 }
 
-.popup_inner {
+.modal-body {
   position: absolute;
-  left: 25%;
-  right: 25%;
-  top: 25%;
+  top: 30%;
+  left: 50%;
   bottom: 50%;
-  margin: auto;
+  transform: translate(-50%, -50%);
+  margin: auto 0;
   background: white;
   padding: 0 10px;
   border-radius: 4px;
 }
 
-.loader_inner {
+.loader-body {
   position: absolute;
-  left: 50%;
-  right: 0;
+  left: 45%;
   top: 40%;
   bottom: 50%;
   margin: auto;
@@ -259,24 +255,26 @@ button:active {
   border-radius: 4px;
 }
 
-.loader {
-  border: 16px solid #f3f3f3; /* Light grey */
-  border-top: 16px solid #3498db; /* Blue */
-  border-radius: 50%;
-  width: 120px;
-  height: 120px;
-  animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.popup_inner h1 {
+.modal-body h1 {
   text-align: center;
 }
 
-.popup_inner h3 {
+.modal-body h3 {
   margin: 10px 20px;
+}
+
+.loader {
+  border: 16px solid #abe9b0;
+  border-right: 16px solid #2e7d32;
+  border-bottom: 16px solid #104e13;
+  border-top: 16px solid #2cc734;
+  border-radius: 100%;
+  width: 150px;
+  height: 150px;
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

@@ -6,7 +6,7 @@ import SearchBooksComponent from './components/searchBooksComponent';
 import { Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { withRouter } from "react-router";
-import Popup from './components/confirmBookAdded';
+import ConfirmModal from './components/confirmModalAdded';
 import LoadingDialog from './components/loadingDialog';
 
 class BooksApp extends React.Component {
@@ -14,7 +14,7 @@ class BooksApp extends React.Component {
     books: [],
     bookSearch: [],
     showSearchPage: false,
-    showPopup: false,
+    showConfirmModal: false,
     updatedBook: {},
     showLoader: false
   }
@@ -55,7 +55,7 @@ class BooksApp extends React.Component {
     BooksAPI.update(book, shelf)
       .then(() => {
         this.getAllBooks(true);
-        this.togglePopup(book);
+        this.toggleConfirmModal(book);
       });
   }
 
@@ -78,16 +78,16 @@ class BooksApp extends React.Component {
     }));
   }
 
-  togglePopup = (updatedBook) => {
-    const { showPopup } = this.state;
+  toggleConfirmModal = (updatedBook) => {
+    const { showConfirmModal } = this.state;
     this.setState({
       updatedBook,
-      showPopup: !showPopup,
+      showConfirmModal: !showConfirmModal,
     });
 
     setTimeout(() => {
       this.setState({
-        showPopup: false,
+        showConfirmModal: false,
       });
     }, 3000);
 
@@ -100,9 +100,9 @@ class BooksApp extends React.Component {
     }));
   }
 
-  closePopup = () => {
+  closeConfirmModal = () => {
     this.setState({
-      showPopup: false
+      showConfirmModal: false
     });
   }
 
@@ -137,12 +137,12 @@ class BooksApp extends React.Component {
           </div>
         )} />
         {
-          this.state.showPopup ?
-            <Popup
+          this.state.showConfirmModal ?
+            <ConfirmModal
               loader={this.state.loader}
               textObject={this.state.updatedBook}
-              showPopup={this.state.showPopup}
-              closePopup={this.closePopup}
+              showConfirmModal={this.state.showConfirmModal}
+              closeConfirmModal={this.closeConfirmModal}
             /> : null
         }
         {

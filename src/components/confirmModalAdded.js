@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 
-class ConfirmBookAdded extends React.Component {
+class ConfirmModalAdded extends React.Component {
     static propTypes = {
-        closePopup: PropTypes.func.isRequired,
+        closeConfirmModal: PropTypes.func.isRequired,
         textObject: PropTypes.object.isRequired
     }
 
@@ -11,12 +11,12 @@ class ConfirmBookAdded extends React.Component {
         const { title, shelf } = this.props.textObject;
 
         return (
-            <div className='popup'>
+            <div className='modal'>
                 {
-                    <div className='popup_inner'>
+                    <div className='modal-body'>
                         <button
                             className='close-confirm'
-                            onClick={this.props.closePopup}>close me</button>
+                            onClick={this.props.closeConfirmModal}></button>
                         <h1> Success! </h1>
                         <h3> {title} was added to the shelf {shelf}!</h3>
                     </div>
@@ -26,4 +26,4 @@ class ConfirmBookAdded extends React.Component {
     }
 }
 
-export default ConfirmBookAdded;
+export default ConfirmModalAdded;
