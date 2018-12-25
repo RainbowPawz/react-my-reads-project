@@ -1,32 +1,59 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import BooksGrid from './booksGrid';
-
+import { Link } from 'react-router-dom';
 
 class SearchBooksComponent extends React.Component {
     static propTypes = {
         searchBooks: PropTypes.array.isRequired,
         onSearchBooks: PropTypes.func.isRequired,
-        updateBook: PropTypes.func.isRequired
+        updateBook: PropTypes.func.isRequired,
+        clearBookListState: PropTypes.func.isRequired
     }
 
     state = {
         query: ''
     }
 
+    checkTermTable = (query) => {
+        const searchWords = ['Android', 'Art', 'Artificial Intelligence', 'Astronomy',
+            'Austen', 'Baseball', 'Basketball', 'Bhagat', 'Biography', 'Brief', 'Business',
+            'Camus', 'Cervantes', 'Christie', 'Classics', 'Comics', 'Cook', 'Cricket', 'Cycling',
+            'Desai', 'Design', 'Development', 'Digital Marketing', 'Drama', 'Drawing', 'Dumas',
+            'Education', 'Everything', 'Fantasy', 'Film', 'Finance', 'First', 'Fitness', 'Football',
+            'Future', 'Games', 'Gandhi', 'Homer', 'Horror', 'Hugo', 'Ibsen', 'Journey', 'Kafka', 'King',
+            'Lahiri', 'Larsson', 'Learn', 'Literary Fiction', 'Make', 'Manage', 'Marquez', 'Money',
+            'Mystery', 'Negotiate', 'Painting', 'Philosophy', 'Photography', 'Poetry', 'Production',
+            'Programming', 'React', 'Redux', 'River', 'Robotics', 'Rowling', 'Satire', 'Science Fiction',
+            'Shakespeare', 'Singh', 'Swimming', 'Tale', 'Thrun', 'Time', 'Tolstoy', 'Travel', 'Ultimate',
+            'Virtual Reality', 'Web Development', 'iOS'];
+
+        const result = searchWords.filter((term) => (
+            term.toLowerCase() === query.toLowerCase()
+        ));
+
+        return result[0];
+    }
+
     updateQuery = (query) => {
         this.setState(() => ({
             query: query.trim()
-        }))
-    }
+        }));
 
-    clearQuery = () => {
-        this.updateQuery('');
+        const result = this.checkTermTable(query);
+
+        if (result && result.length) {
+            this.props.onSearchBooks(result);
+        } else if (result === '' || !result) {
+            this.props.clearBookListState();
+        }
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
-        if (this.props.onSearchBooks && this.state.query !== '') {
+        const result = this.checkTermTable(this.state.query);
+
+        if (this.props.onSearchBooks && result && result.length) {
             this.props.onSearchBooks(this.state.query);
         }
     }
@@ -38,7 +65,11 @@ class SearchBooksComponent extends React.Component {
         return (
             <div className="search-books">
                 <div className="search-books-bar">
-                    <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button>
+                    <Link
+                        className="close-search"
+                        to='/'>
+                        Close
+                    </Link>
                     <div className="search-books-input-wrapper">
                         <form
                             onSubmit={this.handleSubmit}>
@@ -46,7 +77,7 @@ class SearchBooksComponent extends React.Component {
                                 type="text"
                                 placeholder="Search by title or author"
                                 value={query}
-                                onChange={(event) => this.updateQuery(event.target.value)} />
+                                onChange={(event) => this.updateQuery(event.target.value, event)} />
                         </form>
                     </div>
                 </div>
@@ -61,4 +92,4 @@ class SearchBooksComponent extends React.Component {
     }
 }
 
-export default SearchBooksComponent
+export default SearchBooksComponent;

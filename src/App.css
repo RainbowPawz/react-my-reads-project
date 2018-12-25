@@ -53,7 +53,7 @@ body, .app {
   bottom: 25px;
 }
 
-.open-search button {
+.open-search {
   display: block;
   width: 50px;
   height: 50px;
@@ -68,7 +68,23 @@ body, .app {
   outline: 0;
 }
 
-.open-search button:hover {
+.close-confirm {
+    float: right;
+    width: 30px;
+    height: 30px;
+    margin-top: 10px;
+    border-radius: 50%;
+    background: #898989;
+    background-image: url('./icons/add.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 28px;
+    font-size: 0;
+    outline: 0;
+    transform: rotate(45deg);
+}
+
+.open-search:hover {
   background-color: rgb(0, 102, 0);
 }
 
@@ -111,6 +127,14 @@ body, .app {
   font-size: 0;
   border: none;
   outline: none;
+}
+
+.missing-book-cover {
+  background-image: url('./icons/missing_image.png') !important;
+  background-repeat: no-repeat !important;
+  background-size: 130px !important;
+  margin: 5;
+  background-position-y: center !important;
 }
 
 button:active {
@@ -189,10 +213,40 @@ button:active {
 .book-cover {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   background: #eee;
+  width: 128px;
+  height: 193px;
 }
 
 .book-cover-title {
   padding: 20px 10px 0;
   text-align: center;
   font-size: 0.8em;
+}
+
+.popup {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: rgba(0,0,0, 0.5);
+  z-index: 100;
+}
+.popup_inner {
+  position: absolute;
+  left: 25%;
+  right: 25%;
+  top: 25%;
+  bottom: 50%;
+  margin: auto;
+  background: white;
+  padding: 0 25px;
+  border-radius: 4px;
+}
+
+.popup_inner h1 {
+  text-align: center;
 }

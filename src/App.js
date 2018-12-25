@@ -3,22 +3,38 @@ import * as BooksAPI from './BooksAPI'
 import './App.css'
 import BookShelfContainer from './components/bookShelfContainer';
 import SearchBooksComponent from './components/searchBooksComponent';
+import { Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import Popup from './components/confirmBookAdded'
 
 class BooksApp extends React.Component {
   state = {
     books: [],
     bookSearch: [],
-    showSearchPage: false
+    showSearchPage: false,
+    showPopup: false,
+    updatedBook: {}
   }
 
   searchBooks = (query) => {
     BooksAPI.search(query)
-      .then((bookSearch) => {
+      .then((bookResult) => {
+        const bookSearch = this.findShelvedBooks(bookResult);
+
         this.setState(() => ({
           bookSearch
         }))
-        console.log(this.state.bookSearch);
       });
+  }
+
+  findShelvedBooks = (bookResult) => {
+    for (let i = 0; i < bookResult.length; i++) {
+      const shelvedBook = this.state.books.filter((book) => book.id === bookResult[i].id);
+      if (shelvedBook.length) {
+        bookResult[i].shelf = shelvedBook[0].shelf;
+      }
+    }
+    return bookResult;
   }
 
   componentDidMount() {
@@ -27,8 +43,9 @@ class BooksApp extends React.Component {
 
   updateBook = (book, shelf) => {
     BooksAPI.update(book, shelf)
-      .then((book) => {
+      .then(() => {
         this.getAllBooks();
+        this.togglePopup(book);
       });
   }
 
@@ -37,34 +54,69 @@ class BooksApp extends React.Component {
       .then((books) => {
         this.setState(() => ({
           books
-        }))
-        console.log(this.state.books);
-      })
+        }));
+      });
   }
+
+  clearBookListState = () => {
+    const bookSearch = [];
+    this.setState(() => ({
+      bookSearch
+    }))
+  }
+
+  togglePopup = (updatedBook) => {
+    this.setState({
+      updatedBook,
+      showPopup: !this.state.showPopup
+    });
+  }
+
+  closePopup = () => {
+    this.setState({
+      showPopup: false
+    });
+  }
+
 
   render() {
     return (
       <div className="app">
-        {this.state.showSearchPage ? (
+        <Route path='/search' render={() => (
           <SearchBooksComponent
             searchBooks={this.state.bookSearch}
             onSearchBooks={this.searchBooks}
             updateBook={this.updateBook}
-            >
+            clearBookListState={this.clearBookListState}
+          >
           </SearchBooksComponent>
-        ) : (
-            <div className="list-books">
-              <div className="list-books-title">
-                <h1>MyReads</h1>
-              </div>
-              <BookShelfContainer
-                books={this.state.books}
-                updateBook={this.updateBook}></BookShelfContainer>
-              <div className="open-search">
-                <button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button>
-              </div>
+        )} />
+        <Route exact path='/' render={({ history }) => (
+          <div className="list-books">
+            <div className="list-books-title">
+              <h1>MyReads</h1>
             </div>
-          )}
+            <BookShelfContainer
+              books={this.state.books}
+              updateBook={(book, shelf) => {
+                this.updateBook(book, shelf);
+                history.push('/')
+              }}></BookShelfContainer>
+              <Link
+                className="open-search"
+                to='/search'
+                onClick={this.clearBookListState}>
+                Add a book
+            </Link>
+          </div>
+        )} />
+        { this.state.showPopup ?
+          <Popup
+            textObject={this.state.updatedBook}
+            showPopup={this.state.showPopup}
+            closePopup={this.closePopup}
+          /> : null
+        }
       </div>
     )
   }
