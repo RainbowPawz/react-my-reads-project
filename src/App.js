@@ -12,51 +12,19 @@ import LoadingDialog from './components/loadingDialog';
 class BooksApp extends Component {
   state = {
     books: [],
-    bookSearch: [],
-    showSearchPage: false,
     showConfirmModal: false,
     updatedBook: {},
     showLoader: false
   }
 
+  closeConfirmModal = () => {
+    this.setState({
+      showConfirmModal: false
+    });
+  }
+
   componentDidMount() {
     this.getAllBooks();
-  }
-
-  searchBooks = (query) => {
-    this.setLoader(true);
-    if (query === '' || !query) {
-      this.clearBookListState();
-      this.setLoader(false);
-    } else {
-      BooksAPI.search(query)
-        .then((bookResult) => {
-          const bookSearch = this.findShelvedBooks(bookResult);
-          this.setState(() => ({
-            bookSearch
-          }));
-          this.setLoader(false);
-        });
-    }
-  }
-
-  findShelvedBooks = (bookResult) => {
-    for (let i = 0; i < bookResult.length; i++) {
-      const shelvedBook = this.state.books.filter((book) => book.id === bookResult[i].id);
-      if (shelvedBook.length) {
-        bookResult[i].shelf = shelvedBook[0].shelf;
-      }
-    }
-    return bookResult;
-  }
-
-  updateBook = (book, shelf) => {
-    this.setLoader(true);
-    BooksAPI.update(book, shelf)
-      .then(() => {
-        this.getAllBooks(true);
-        this.toggleConfirmModal(book);
-      });
   }
 
   getAllBooks = (keepLoader) => {
@@ -72,9 +40,9 @@ class BooksApp extends Component {
       });
   }
 
-  clearBookListState = () => {
+  setLoader = (toggle) => {
     this.setState(() => ({
-      bookSearch: []
+      showLoader: toggle
     }));
   }
 
@@ -94,16 +62,13 @@ class BooksApp extends Component {
     this.setLoader(false);
   }
 
-  setLoader = (toggle) => {
-    this.setState(() => ({
-      showLoader: toggle
-    }));
-  }
-
-  closeConfirmModal = () => {
-    this.setState({
-      showConfirmModal: false
-    });
+  updateBook = (book, shelf) => {
+    this.setLoader(true);
+    BooksAPI.update(book, shelf)
+      .then(() => {
+        this.getAllBooks(true);
+        this.toggleConfirmModal(book);
+      });
   }
 
   render() {
@@ -111,10 +76,8 @@ class BooksApp extends Component {
       <div className="app">
         <Route path='/search' render={() => (
           <SearchBooksComponent
-            searchBooks={this.state.bookSearch}
-            onSearchBooks={this.searchBooks}
-            updateBook={this.updateBook}
-            clearBookListState={this.clearBookListState}>
+            shelvedBooks={this.state.books}
+            updateBook={this.updateBook}>
           </SearchBooksComponent>
         )} />
         <Route exact path='/' render={({ history }) => (
@@ -139,7 +102,6 @@ class BooksApp extends Component {
         {
           this.state.showConfirmModal ?
             <ConfirmModal
-              loader={this.state.loader}
               textObject={this.state.updatedBook}
               showConfirmModal={this.state.showConfirmModal}
               closeConfirmModal={this.closeConfirmModal}
