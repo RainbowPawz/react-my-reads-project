@@ -7,6 +7,18 @@ class ConfirmModal extends Component {
         textObject: PropTypes.object.isRequired
     }
 
+    getBodyData = (shelf, title) => {
+        const data = shelf !== 'None'
+            ? (
+                <h3> {title} was added to the shelf {shelf}!</h3>
+            )
+            : (
+                <h3> {title} was removed from its shelf!</h3>
+            );
+
+            return data;
+    }
+
     render() {
         const { title, shelf } = this.props.textObject;
 
@@ -18,7 +30,9 @@ class ConfirmModal extends Component {
                             className='close-confirm'
                             onClick={this.props.closeConfirmModal}></button>
                         <h1> Success! </h1>
-                        <h3> {title} was added to the shelf {shelf}!</h3>
+                        {
+                            this.getBodyData(shelf, title)
+                        }
                     </div>
                 }
             </div>
