@@ -3,7 +3,7 @@ import * as BooksAPI from './BooksAPI';
 import './App.css';
 import BookShelfContainer from './components/bookShelfContainer';
 import SearchBooksComponent from './components/searchBooksComponent';
-import { Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { withRouter } from "react-router";
 import ConfirmModal from './components/confirmModal';
@@ -74,31 +74,33 @@ class BooksApp extends Component {
   render() {
     return (
       <div className="app">
-        <Route path='/search' render={() => (
-          <SearchBooksComponent
-            shelvedBooks={this.state.books}
-            updateBook={this.updateBook}>
-          </SearchBooksComponent>
-        )} />
-        <Route exact path='/' render={({ history }) => (
-          <div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
-            </div>
-            <BookShelfContainer
-              books={this.state.books}
-              updateBook={(book, shelf) => {
-                this.updateBook(book, shelf);
-                history.push('/');
-              }}></BookShelfContainer>
-            <Link
-              className="open-search"
-              to='/search'
-              onClick={this.clearBookListState}>
-              Add a book
+        <Switch>
+          <Route path='/search' render={() => (
+            <SearchBooksComponent
+              shelvedBooks={this.state.books}
+              updateBook={this.updateBook}>
+            </SearchBooksComponent>
+          )} />
+          <Route exact path='/' render={({ history }) => (
+            <div className="list-books">
+              <div className="list-books-title">
+                <h1>MyReads</h1>
+              </div>
+              <BookShelfContainer
+                books={this.state.books}
+                updateBook={(book, shelf) => {
+                  this.updateBook(book, shelf);
+                  history.push('/');
+                }}></BookShelfContainer>
+              <Link
+                className="open-search"
+                to='/search'
+                onClick={this.clearBookListState}>
+                Add a book
             </Link>
-          </div>
-        )} />
+            </div>
+          )} />
+        </Switch>
         {
           this.state.showConfirmModal ?
             <ConfirmModal
