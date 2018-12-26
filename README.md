@@ -4,9 +4,10 @@ This is a functional , if small, React project that allows you to search a set o
 
 You will have two 'pages' to interact with. The first will be the main 'Book Shelf'.
 You will have three shelves to place books:
-*Currently reading
-*Want to Read
-*Read
+* Currently reading
+* Want to Read
+* Read
+
 To move a book to a different shelf simply click on the green button and select which option you wish to move said book to.
 
 There is a plus sign button on the bottom right of the main book shelf page that will take you to the 'Search' page.
