@@ -1,6 +1,6 @@
 # MyReads Project
 
-This is a functional , if small, React project that allows you to search a set of finite set of terms for books to catoragize into shelves. 
+This is a functional , if small, React project that allows you to search a finite set of terms for books to catoragize into shelves. 
 
 You will have two 'pages' to interact with. The first will be the main 'Book Shelf'.
 You will have three shelves to place books:
