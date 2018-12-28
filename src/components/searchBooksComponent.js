@@ -105,7 +105,7 @@ class SearchBooksComponent extends Component {
 
     updateQuery = (query) => {
         this.setState(() => ({
-            query: query.trim()
+            query: query
         }));
 
         const result = this.checkTermTable(query);
